@@ -4,7 +4,7 @@ import hashlib
 import md5
 import sys
 
-'''获取文件MD5值'''
+'''get md5 of a given file'''
 def getFileMD5(filename):
     strMD5 = ''
     fHandle = None
@@ -28,7 +28,7 @@ def getFileMD5(filename):
         if fHandle: fHandle.close()
     return strMD5
 
-'''获取二进制内容的MD5值'''
+'''get md5 of a binary content'''
 def getBinaryContentMD5(bContent):
     strMD5 = ''
     try:

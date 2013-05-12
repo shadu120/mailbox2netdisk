@@ -4,12 +4,12 @@
 import sys,os
 from encode import getUnicodeArgv
 
-'''将命令行参数逐个转码为Unicode'''
+'''covert every args to unicode'''
 def encodeArgs():
     for i in range (0, len(sys.argv)):
         sys.argv[i] = getUnicodeArgv(sys.argv[i])
 
-'''准备初始化'''
+'''prepare to init'''
 def initEnv():
     reload(sys)
     sys.setdefaultencoding('utf-8')

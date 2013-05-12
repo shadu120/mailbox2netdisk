@@ -21,13 +21,13 @@ class Spliter():
     def __init__(self, filename):
         self._sBigFileSourceFullName = filename
     
-    '''分割前环境准备'''
+    '''prepare before splite'''
     def _prepareSplit(self):
         self._lReadSizeLimit         = self.lSingeFileMBSize * 1024 * 1024
         self._createTempFolder()
         self._sBigFileHash = getFileMD5(self._sBigFileSourceFullName)
     
-    '''创建临时文件夹'''
+    '''create temp folder'''
     def _createTempFolder(self):
         if not os.path.exists(self._sTempFolder):
             try:
@@ -35,7 +35,7 @@ class Spliter():
             except:
                 self._sTempFolder = './'
     
-    '''分割'''
+    '''split'''
     def runSplit(self):
         print self._sBigFileSourceFullName
         if not os.path.exists(self._sBigFileSourceFullName): return False
@@ -45,7 +45,7 @@ class Spliter():
             self._bSplitedResult = True
         return self._bSplitedResult
     
-    '''分割大文件'''
+    '''split big file'''
     def  _splitBigFile(self):
         sequenceid  = 0
         fHandle     = None
@@ -70,7 +70,7 @@ class Spliter():
             if fHandle: fHandle.close()
         self._iAutoIncrementIDEnd = self._iAutoIncrementIDBegin + sequenceid
 
-    '''根据文件名称和内容，创建分割文件'''
+    '''create splite file by filename and binary content'''
     def _createSplitedFile(self, filename, bContent):
         fHandle = None
         try:
@@ -83,11 +83,11 @@ class Spliter():
         finally:
             fp.close()
     
-    '''根据sequenceid生成分割文件的名称'''
+    '''generate splitefile name by id'''
     def _generateSplitedFileName(self, splitedid):
         return '%s%s.%d.q2d' % (self._sTempFolder, self._sBigFileHash, splitedid)
     
-    '''检查文件分割结果'''
+    '''check file splited result'''
     def _checkSplitedResult(self):
         if not (self._iAutoIncrementIDEnd - self._iAutoIncrementIDBegin) == len(self._ListSplitedFiles): return False
         for splitedFile in self._ListSplitedFiles:
@@ -95,7 +95,7 @@ class Spliter():
             if not os.path.exists(splitedFileName): return False
         return True
 
-    '''返回大文件信息'''
+    '''return big file info list'''
     def getBigFileInfo(self):
         if not self._bSplitedResult: return None
         fullfilename        = self._sBigFileSourceFullName
@@ -105,7 +105,7 @@ class Spliter():
         filehash            = self._sBigFileHash
         return [fullfilename, filename, filehash, filesize, filemtime]
     
-    '''返回分割后的文件清单'''
+    '''retuen splited files info list'''
     def getSplitedFilesList(self):
         if not self._bSplitedResult: return None
         return self._ListSplitedFiles
