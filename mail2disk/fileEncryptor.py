@@ -20,13 +20,13 @@ class fileEncryptor():
         self._sRARPath        = self._getRARPath()
     
     '''
-    检查RAR工具是否正确安装
+    Check RAR  tool has been installed
     '''
     def _checkRARInstall(self):
         return os.path.exists(self._sRARPath)
     
     '''
-    返回RAR程序路径，或手工输入
+    return RAR tool's path or get from user input
     '''
     def _getRARPath(self):
         if os.name == 'nt':
@@ -53,7 +53,7 @@ class fileEncryptor():
                 return self._sRARPath
     
     '''
-    压缩文件，返回压缩文件名称和密码的组合
+    encrypt a file by given target RAR name
     '''
     def getRarFile(self, TargetFileName):
         self._sTargetFileName = TargetFileName
@@ -72,7 +72,7 @@ class fileEncryptor():
         return True
 
     '''
-    解压缩文件
+    decrypt a file by given target file name from RAR
     '''
     def getUnRarFile(self, targetFileName):
         if not os.path.exists(self._sSourceFileName) or not os.path.exists(self._sRARPath):

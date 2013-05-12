@@ -6,7 +6,7 @@ import os, sys, time
 import inspect
 from zeander.md5c import getFileMD5, getBinaryContentMD5
 
-'''返回数据库文件路径'''
+'''return db file path'''
 def getDBPath():
     this_file = inspect.getfile(inspect.currentframe())
     this_path = os.path.abspath(os.path.dirname(this_file))
@@ -15,7 +15,7 @@ def getDBPath():
 #DATABASE  = 'm2d.db3'
 DATABASE = getDBPath()
 
-'''新增大文件记录,并返回其ID'''
+'''add new big file record, return its file id'''
 def addBigFileRecord(bigfileinfo):
     intFileId = 0
     #[RemoteFileName, RemoteFileBaseName, RemoteFileHash, RemoteFileSize, RemoteFileMName,
@@ -47,7 +47,7 @@ def addBigFileRecord(bigfileinfo):
         print sql1
         print sql2
 
-'''添加新的分割文件记录'''
+'''add new splited file record'''
 def addSplitedFilesRecord(bigfileid, SplitedFilesInfo):
     #[sequenceid, splitedFileName, getBinaryContentMD5(bRead), len(bRead)]
     sql0 = "insert into CloudSplitedFiles (fileid, sequenceid, filename, filehash, filesize, bigfileid) values ( null, %d, '%s', '%s', %d, %d)"
@@ -66,7 +66,7 @@ def addSplitedFilesRecord(bigfileid, SplitedFilesInfo):
         print sql
         return False
 
-'''分割文件上传成功后，更新imapuid信息'''
+'''update imapuid,imapid info after splited file uploaded'''
 def updateCloudFileIMAPStatus(fileid, imapid, imapuid):
     sql = "update CloudSplitedFiles set imapid = %d, imapuid = %d where fileid = %d" % (imapid, imapuid, fileid)
     try:
@@ -80,7 +80,7 @@ def updateCloudFileIMAPStatus(fileid, imapid, imapuid):
         return False
     
 
-'''根据分割文件的id返回其对应的文件名'''
+'''return splited file name by id'''
 def getSplitedFileNameById(splitedfileid):
     filename = ''
     sql = "select filename from CloudSplitedFiles where fileid = %d" % splitedfileid

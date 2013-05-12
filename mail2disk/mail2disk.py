@@ -49,14 +49,14 @@ class M2D:
                 print "Data processed: %.3f MB processed" % (float(self._ProcessedByteSize) / 1024 /1024)
                 print "Average speed : %.3f KB/s" % (float(self._ProcessedByteSize) / (self._TimeEnd - self._TimeBegin) / 1024)
         
-    '''检查IMAP服务器是否配置'''
+    '''Chech IMAP server config'''
     def _checkIMAPConfig(self):
         if dba.checkIMAPConfig():
             self._imapReady = True
         else:
             self._configIMAPServer()
     
-    '''配置IMAP服务器参数'''
+    '''input,verify and save IMAP Congfig'''
     def _configIMAPServer(self) :
         print 'Welcome to use IMAP2Disk :)\nThank you for adding the IMAP configure!\nFor your account security, the IMAP Server must support SSL'
         while True:
@@ -113,13 +113,13 @@ class M2D:
         self._RemoteFileName       = self._OriginalFileBaseName
         self._BigFileId            = self._checkFileIsInDBByHash(self._OriginalFileHash);
         
-    '''断点上传数据库中所有还未完成的任务'''
+    '''upload all the unfinished files.'''
     def uploadAll(self):
         FileIDsToUpload = dba.getBigFilesIdToUpload()
         for bigfileid in FileIDsToUpload:
             self._uploadBigFileById(bigfileid)
     
-    '''上传指定ID的大文件,死循环逻辑检查..........'''
+    '''upload big file by id'''
     def _uploadBigFileById(self, bigfileid):
         print 'Uploading Big File Id: %d' % bigfileid
         splitedfileids = dba.getSplitedFilesIdToUpload(bigfileid)
@@ -155,7 +155,7 @@ class M2D:
         print 'splited files upload finished'
         self._finishBigFileUpload(bigfileid)  ### big file upload finished
       
-    '''上传文件到网盘'''
+    '''upload file to net disk'''
     def upload(self):
         if not os.path.exists(self.OriginalFileFullName): return
         if not self._imapReady: return
@@ -178,7 +178,7 @@ class M2D:
             else:
                 print 'Big file splited failure...\n'
     
-    '''上传前加密文件'''
+    '''encrypt file before uploading'''
     def _EncryptBigFile(self):
         self._RemoteRarPassword = self._OriginalFileHash
         fE = fileEncryptor(self.OriginalFileFullName, self._RemoteRarPassword)
@@ -192,15 +192,15 @@ class M2D:
         return True
 
         
-    '''数据库中是否有该文件'''    
+    '''Is big file in DB'''    
     def _checkFileIsInDBByHash(self, hash):
         return dba.checkFileIsInDBByHash(hash)
     
-    '''判断大文件是否已经上传'''    
+    '''check file has been uploaded by id'''    
     def _checkFileUploadedById(self, bigfileid):
         return dba.checkFileUploadedById(bigfileid)
     
-    '''分割大文件 '''
+    '''Split big file '''
     def _splitBigFile(self):
         print '...........spliting big file...........'
         fS = Spliter(self._LocalTempFullName)
@@ -224,7 +224,7 @@ class M2D:
         else:
             return 0
     
-    '''完成大文件上传，设置状态并清除文件'''
+    '''finish big file upload, set the file status in DB, clean the tmp files'''
     def _finishBigFileUpload(self, bigfileid):
         dba.finishBigFileUpload(bigfileid)
         dba.cleanSplitedFilesByBigFileId(bigfileid)
@@ -232,7 +232,7 @@ class M2D:
         if not self._RemoteRarPassword == '':
             print 'Please delete the temp file %s manually' % self._RemoteFileName
     
-    '''下载文件'''
+    '''download file form net disk by id'''
     def download(self, bigfileid):
         if not self._imapReady: return
         splitedfileslist = dba.getSplitedFilesListByBigFileId(bigfileid)
@@ -248,15 +248,15 @@ class M2D:
                 if '' != self._RemoteRarPassword :
                     fE = fileEncryptor(self._RemoteFileName, self._RemoteRarPassword)
                     if fE.getUnRarFile(self._OriginalFileBaseName) and getFileMD5(self._OriginalFileBaseName) == self._OriginalFileHash:
-                        self._cleanDownloadTempFiles()
+                        self._cleanDownloadTempFiles(splitedfileslist)
                         return True
                 else:
                     if getFileMD5(self._OriginalFileBaseName) == self._OriginalFileHash:
-                        self._cleanDownloadTempFiles()
+                        self._cleanDownloadTempFiles(splitedfileslist)
                         return True
         return False
     
-    '''清除下载过程中产生的临时文件'''
+    '''clean temp files after download'''
     def _cleanDownloadTempFiles(self,splitedfileslist):
         print 'rebuid successfully,cleaning temp files...'
         for splitedfile in splitedfileslist:
@@ -265,7 +265,7 @@ class M2D:
                 os.remove(splitedfilename)
         print 'Download temp files has been cleaned.'
             
-    '''根据小文件列表，下载分割的小文件'''
+    '''download splited files by the list'''
     def _downloadSplitedFiles(self, splitedfileslist):
         print '%d files to download from IMAP server ' % len(splitedfileslist)
         downloadedSplitedFiles = []
@@ -288,7 +288,7 @@ class M2D:
             imapdisk = None
         return True
     
-    '''重新组合小文件为大文件'''
+    '''rebuid splited files to big file'''
     def _rebuid(self,splitedfileslist):
         self._RemoteFileName = splitedfileslist[0][5]
         self._RemoteFileHash = splitedfileslist[0][6]
@@ -308,7 +308,7 @@ class M2D:
             return False
         return True
         
-    '''列出网盘文件清单'''
+    '''list files in net disk'''
     def list(self):
         filesList = dba.getBigFilesList()
         if not len(filesList) > 0:
@@ -329,7 +329,7 @@ class M2D:
             print ' |%8d|%s|%12.3f|%-20s |%-49s|' % (bigfileid, status, float(filesize)/1024/1024, foldername, filename )
         print ' +--------+-+------------+---------------------+-------------------------------------------------+'
 
-    '''从网盘中删除指定ID的文件'''
+    '''delete file in net disk by id'''
     def delete(self, bigfileid):
         if not self._imapReady:
             return
@@ -364,61 +364,6 @@ class M2D:
         imapdisk = None           
         return dba.deleteBigFileById(splitedfileslist[0][0])
 
-            
-'''帮助'''
-def showHelp():
-    print '''
-@desc   Make your IMAP Server to NetDisk
-@author shadu#foxmail.com
-
-Encrypy remote file with -p parameter, with RAR tool installed before
-
-UPLOAD   : mail2disk.py upload <LocalFilePath> <RemoteFolder> [-p]
-example  : mail2disk.py upload d:\\movie\\test.mp4 /tools/
-
-DOWNLOAD : mail2disk.py download <fileid>
-example  : mail2disk.py download 903644
-
-DELETE   : mail2disk.py delete <fileid>
-example  : mail2disk.py delete 903644
-
-LISTFILES: mail2disk.py list
-example  : mail2disk.py list
-'''
-    sys.exit()
-
 
 if __name__ == '__main__':
-    clear = (os.name == 'nt' and os.system('cls')) or (os.name == 'posix' and os.system('clear'))
-    initEnv()
-    if not len(sys.argv) > 1:
-        showHelp()
-        
-    if sys.argv[1] == 'upload' and len(sys.argv) > 3:
-        if not os.path.exists(sys.argv[2]) or not os.path.getsize(sys.argv[2]) > 0:
-            print 'File not exists or is empty...'
-            sys.exit()
-        m2d = M2D()
-        m2d.OriginalFileFullName  = sys.argv[2]
-        m2d.RemoteFolderName      = sys.argv[3]
-        m2d.SingleFileMBSize      = 5             # 依据当前网速，单个文件5M比较合适
-        if len(sys.argv) > 4 and sys.argv[4] == '-p':
-            m2d.bEncryptRemoteFile = True
-        m2d.upload()
-        
-    elif sys.argv[1] == 'download' and len(sys.argv) == 3:
-        m2d = M2D()
-        bigfileid  = int(sys.argv[2])
-        m2d.download(bigfileid)
-        
-    elif sys.argv[1] == 'delete' and len(sys.argv) == 3:
-        m2d = M2D()
-        bigfileid  = int(sys.argv[2])
-        m2d.delete(bigfileid)
-        
-    elif sys.argv[1] == 'list':
-        m2d = M2D()
-        m2d.list()
-        
-    else:
-        showHelp()
+    pass
