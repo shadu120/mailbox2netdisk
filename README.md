@@ -10,3 +10,39 @@ encrypted file uploading is also supported, by using RAR command tool which shou
 
 
 OS:Windows/Linux + Python 2.7+
+
+
+Usage: m2d.py [options] args ... 
+
+Welcome to use this <Mailbox To Netdisk> tool.You can use your email's mailbox
+as a net disk by IMAP protocol.For your email accout's security, your email
+server must support IMAP SSL.download
+address:https://github.com/shadu120/mailbox2netdisk
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            show this help message and exit
+  -l, --list            list files in net disk,include the id of each file.
+  -c, --continue        continue to upload all the unfinished files for
+                        network disconnect or other reasons.
+  -d FILE_ID, --download=FILE_ID
+                        download a file from net disk by given file id
+  -r FILE_ID, --remove=FILE_ID
+                        remove a file from net disk by given file id
+  -u FILE_NAME, --upload=FILE_NAME
+                        uploade a file to net disk, eg: c:\test\test.mp3
+
+  upload parameters:
+    important parameters when "-u" is using.
+
+    -f REMOTE_FOLDER, --folder=REMOTE_FOLDER
+                        which folder you want to store the file on net
+                        disk,eg: /video/, default is /.
+    -s SIZE, --size=SIZE
+                        splited file size in MB, default is 2. this depends on
+                        your email attachment limits and your network quality
+    -e, --Encrypt       encrypt the file before storing to net disk
+    -v, --Verify        verify the splited files after uploading.this will
+                        cost you much more time.Unfortunately, this fucntion
+                        has not been implemented now.
+
