@@ -6,4 +6,7 @@ As you know, dropbox is free but its disk space is limited for free user.There a
 
 This small tool can help you to upload ,download, delte and list big files to/on "net disk" by IMAP protocol.
 
-encrypted file uploading is also supported, by using RAR command tool which should be installed on your local system.
+encrypted file uploading is also supported, by using RAR command tool which should be installed on your local system, for example: C:\Program Files\Winrar\rar.exe, or /usr/bin/rar.
+
+
+OS:Windows/Linux + Python 2.7+
