@@ -314,9 +314,9 @@ class M2D:
         if not len(filesList) > 0:
             print 'No files in DataBase'
             return
-        print ' +--------+-+------------+---------------------+-------------------------------------------------+'
-        print ' |%7s |%s|  %s  |      %s     |                     %s                    |' % ('FileId', 'S', 'Size(MB)', 'FolderName', 'FileName' )
-        print ' +--------+-+------------+---------------------+-------------------------------------------------+'
+        print ' +--------+-+------------+---------------------+------------------------------+'
+        print ' |%7s |%s|  %s  |      %s     |          %s            |' % ('FileId', 'S', 'Size(MB)', 'FolderName', 'FileName' )
+        print ' +--------+-+------------+---------------------+------------------------------+'
         for bigfile in filesList:
             (bigfileid, filename , filesize, filemtime,  foldername, fileuploaded)  = bigfile
             if fileuploaded == 1:
@@ -324,10 +324,10 @@ class M2D:
             else:
                 status = 'Y'
             #filename = 'AAAAAAAAAAAAAAAAAAABBBBBBVVVVVKK'
-            if len(filename) > 50:
-                filename = '%s...%s' % (filename[:40],filename[-10:-4])
-            print ' |%8d|%s|%12.3f|%-20s |%-49s|' % (bigfileid, status, float(filesize)/1024/1024, foldername, filename )
-        print ' +--------+-+------------+---------------------+-------------------------------------------------+'
+            if len(filename) > 30:
+                filename = '%s...%s' % (filename[:21],filename[-6:-1])
+            print ' |%8d|%s|%12.3f|%-20s |%-30s' % (bigfileid, status, float(filesize)/1024/1024, foldername, filename )
+        print ' +--------+-+------------+---------------------+------------------------------+'
 
     '''delete file in net disk by id'''
     def delete(self, bigfileid):

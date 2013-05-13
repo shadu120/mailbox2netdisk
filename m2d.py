@@ -49,7 +49,10 @@ def cmdParse():
             return
         m2d = M2D()
         m2d.OriginalFileFullName = filename
-        m2d.RemoteFolderName     = options.folder
+        if not options.folder.endswith('/'):
+            m2d.RemoteFolderName = options.folder + "/"
+        else:
+            m2d.RemoteFolderName = options.folder
         m2d.SingleFileMBSize     = options.size
         m2d.bEncryptRemoteFile   = (options.encrypt == True)
         m2d.upload()
