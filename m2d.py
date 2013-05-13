@@ -22,7 +22,7 @@ def cmdParse():
                     "important parameters when \"-u\" is using.")  
     group.add_option("-f", "--folder",   action="store",       dest="folder",  type="string", metavar="REMOTE_FOLDER", help="which folder you want to store the file on net disk,eg: /video/, default is /.", default="/")
     group.add_option("-s", "--size"  ,   action="store",       dest="size"    ,type="int",    metavar="SIZE",          help="splited file size in MB, default is 2. this depends on your email attachment limits and your network quality", default=2)
-    group.add_option("-e", "--Encrypt"  ,action="store_true",  dest="encrypt" ,                                        help="encrypt the file before storing to net disk")
+    group.add_option("-e", "--Encrypt"  ,action="store_true",  dest="encrypt" ,                                        help="encrypt the file before storing to net disk.RAR command tool should be installed first, such as \"C:\Program Files\WinRAR\RAR.exe\" or \"/usr/bin/rar\"")
     group.add_option("-v", "--Verify"   ,action="store_true",  dest="verify" ,                                         help="verify the splited files after uploading.this will cost you much more time.Unfortunately, this fucntion has not been implemented now.")
 
     parser.add_option_group(group)
