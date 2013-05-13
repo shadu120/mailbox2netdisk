@@ -49,7 +49,7 @@ Options:
                         has not been implemented now.
 
 
-    m2d.py --list
+m2d.py --list
 
     +--------+-+------------+---------------------+------------------------------+
     | FileId |S|  Size(MB)  |      FolderName     |          FileName            |
