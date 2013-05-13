@@ -30,7 +30,7 @@ Options:
     -r FILE_ID, --remove=FILE_ID
                         remove a file from net disk by given file id
      -u FILE_NAME, --upload=FILE_NAME
-                        uploade a file to net disk, eg: c:\test\test.mp3
+                        upload a file to net disk, eg: c:\test\test.mp3
 
   upload parameters:
     important parameters when "-u" is using.

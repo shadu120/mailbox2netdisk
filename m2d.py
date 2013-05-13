@@ -16,7 +16,7 @@ def cmdParse():
     parser.add_option("-c", "--continue", action="store_true",  dest="continues",                                        help="continue to upload all the unfinished files for network disconnect or other reasons.")
     parser.add_option("-d", "--download", action="store",       dest="download", type="int",    metavar="FILE_ID",       help="download a file from net disk by given file id")
     parser.add_option("-r", "--remove",   action="store",       dest="remove",   type="int",    metavar="FILE_ID",       help="remove a file from net disk by given file id")
-    parser.add_option("-u", "--upload",   action="store",       dest="upload",   type="string", metavar="FILE_NAME",     help="uploade a file to net disk, eg: c:\\test\\test.mp3")
+    parser.add_option("-u", "--upload",   action="store",       dest="upload",   type="string", metavar="FILE_NAME",     help="upload a file to net disk, eg: c:\\test\\test.mp3")
 
     group = OptionGroup(parser, "upload parameters",  
                     "important parameters when \"-u\" is using.")  
