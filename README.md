@@ -12,11 +12,11 @@ encrypted file uploading is also supported, by using RAR command tool which shou
 OS:Windows/Linux + Python 2.7+
 
 
-Usage: m2d.py [options] args ... 
+    Usage: m2d.py [options] args ... 
 
-Welcome to use this <Mailbox To Netdisk> tool.You can use your email's mailbox
-as a net disk by IMAP protocol.For your email accout's security, your email
-server must support IMAP SSL.To get new version , please visit:https://github.com/shadu120/mailbox2netdisk
+    Welcome to use this <Mailbox To Netdisk> tool.You can use your email's mailbox
+    as a net disk by IMAP protocol.For your email accout's security, your email
+    server must support IMAP SSL.To get new version , please visit:https://github.com/shadu120/mailbox2netdisk
 
 Options:
 
@@ -41,13 +41,15 @@ Options:
     -s SIZE, --size=SIZE
                         splited file size in MB, default is 2. this depends on
                         your email attachment limits and your network quality
-    -e, --Encrypt       encrypt the file before storing to net disk
+    -e, --Encrypt       encrypt the file before storing to net disk.RAR
+                        command tool should be installed first, such as
+                        "C:\Program Files\WinRAR\RAR.exe" or "/usr/bin/rar"
     -v, --Verify        verify the splited files after uploading.this will
                         cost you much more time.Unfortunately, this fucntion
                         has not been implemented now.
 
 
-m2d.py --list
+    m2d.py --list
 
     +--------+-+------------+---------------------+------------------------------+
     | FileId |S|  Size(MB)  |      FolderName     |          FileName            |
