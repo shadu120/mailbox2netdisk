@@ -21,22 +21,16 @@ address:https://github.com/shadu120/mailbox2netdisk
 
 Options:
 
-  --version             show program's version number and exit
-
-  -h, --help            show this help message and exit
-
-  -l, --list            list files in net disk,include the id of each file.
-
-  -c, --continue        continue to upload all the unfinished files for
+    --version             show program's version number and exit
+    -h, --help            show this help message and exit
+    -l, --list            list files in net disk,include the id of each file.
+    -c, --continue        continue to upload all the unfinished files for
                         network disconnect or other reasons.
-
-  -d FILE_ID, --download=FILE_ID
+    -d FILE_ID, --download=FILE_ID
                         download a file from net disk by given file id
-
-  -r FILE_ID, --remove=FILE_ID
+    -r FILE_ID, --remove=FILE_ID
                         remove a file from net disk by given file id
-
-  -u FILE_NAME, --upload=FILE_NAME
+     -u FILE_NAME, --upload=FILE_NAME
                         uploade a file to net disk, eg: c:\test\test.mp3
 
   upload parameters:
@@ -52,4 +46,13 @@ Options:
     -v, --Verify        verify the splited files after uploading.this will
                         cost you much more time.Unfortunately, this fucntion
                         has not been implemented now.
+
+
+m2d.py --list
+ +--------+-+------------+---------------------+------------------------------+
+ | FileId |S|  Size(MB)  |      FolderName     |          FileName            |
+ +--------+-+------------+---------------------+------------------------------+
+ |      62|Y|      35.058|/Audio/Podcast       |First Impressions Episode.mp3 
+ +--------+-+------------+---------------------+------------------------------+
+
 
