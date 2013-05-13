@@ -1,6 +1,7 @@
 #!/usr/bin/python env
 # -*- coding: UTF-8 -*-
-
+'''Mailbox to Netdisk Tool by shadu@foxmail.com
+'''
 import sys
 import os
 import time

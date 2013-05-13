@@ -16,8 +16,7 @@ Usage: m2d.py [options] args ...
 
 Welcome to use this <Mailbox To Netdisk> tool.You can use your email's mailbox
 as a net disk by IMAP protocol.For your email accout's security, your email
-server must support IMAP SSL.download
-address:https://github.com/shadu120/mailbox2netdisk
+server must support IMAP SSL.To get new version , please visit:https://github.com/shadu120/mailbox2netdisk
 
 Options:
 

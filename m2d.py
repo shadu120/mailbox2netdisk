@@ -9,7 +9,7 @@ from optparse import OptionParser, OptionGroup
 def cmdParse():
     usage="%prog [options] args ... "
     version="\nMailbox2Netdisk (v1.0) by sshadu@foxmail.com on May 5th, 2013\n"
-    description = "Welcome to use this <Mailbox To Netdisk> tool.You can use your email's mailbox as a net disk by IMAP protocol.For your email accout's security, your email server must support IMAP SSL.download address:https://github.com/shadu120/mailbox2netdisk"
+    description = "Welcome to use this <Mailbox To Netdisk> tool.You can use your email's mailbox as a net disk by IMAP protocol.For your email accout's security, your email server must support IMAP SSL. To get new version ,please visit https://github.com/shadu120/mailbox2netdisk" 
     parser = OptionParser(usage=usage, version=version)
     parser.set_description(description)
     parser.add_option("-l", "--list",     action="store_true",  dest="list",                                             help="list files in net disk,include the id of each file.")
