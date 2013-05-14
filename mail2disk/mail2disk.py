@@ -231,7 +231,8 @@ class M2D:
         dba.cleanSplitedFilesByBigFileId(bigfileid)
         print 'Big file uploaded successfully!'
         if not self._RemoteRarPassword == '':
-            print 'Please delete the temp file %s manually' % self._RemoteFileName
+            print '---------->Please delete the temp rar file <%s> manually!' % self._RemoteFileName
+            #if os.path.exists(self._RemoteFileName): os.remove(self._RemoteFileName)
     
     '''download file form net disk by id'''
     def download(self, bigfileid):
@@ -243,12 +244,16 @@ class M2D:
         if self._downloadSplitedFiles(splitedfileslist):
             if self._rebuid(splitedfileslist):
                 print 'Download successfully!'
-                self._RemoteRarPassword  = splitedfileslist[0][9]
-                self._RemoteFileName     = splitedfileslist[0][5]
-                self._OriginalFileHash   = splitedfileslist[0][2]
+                self._RemoteRarPassword    = splitedfileslist[0][9]
+                self._RemoteFileName       = splitedfileslist[0][5]
+                self._OriginalFileBaseName = splitedfileslist[0][1]
+                self._OriginalFileHash     = splitedfileslist[0][2]
                 if '' != self._RemoteRarPassword :
                     fE = fileEncryptor(self._RemoteFileName, self._RemoteRarPassword)
-                    if fE.getUnRarFile(self._OriginalFileBaseName) and getFileMD5(self._OriginalFileBaseName) == self._OriginalFileHash:
+                    if fE.getUnRarFile(self._RemoteFileName) and getFileMD5(self._OriginalFileBaseName) == self._OriginalFileHash:
+                        print '\n------------->RAR file password :%s' % self._RemoteRarPassword
+                        print 'you can delete the rar file <%s> manually\n' % self._RemoteFileName
+                        #os.remove(self._RemoteFileName)
                         self._cleanDownloadTempFiles(splitedfileslist)
                         return True
                 else:
@@ -259,7 +264,7 @@ class M2D:
     
     '''clean temp files after download'''
     def _cleanDownloadTempFiles(self,splitedfileslist):
-        print 'rebuid successfully,cleaning temp files...'
+        print 'cleaning temp files...'
         for splitedfile in splitedfileslist:
             splitedfilename = splitedfile[12]
             if os.path.exists(splitedfilename) :

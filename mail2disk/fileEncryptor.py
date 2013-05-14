@@ -44,7 +44,7 @@ class fileEncryptor():
     
     def _askRARPathInput(self):
         while True:
-            RARPath = raw_input("Please input WinRAR Command Full Path\n(eg. c:\\Program Files\\WinRAR\\RAR.EXE or /usr/bin/rar ):")
+            RARPath = raw_input("Please input WinRAR Command Full Path\n(eg. c:\\Program Files\\WinRAR\\RAR.EXE or /usr/bin/rar ):\n")
             if not os.path.exists(RARPath):
                 continue
             else:
