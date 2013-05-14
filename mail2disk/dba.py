@@ -308,7 +308,7 @@ def getSplitedFilesListByBigFileId(bigfileid):
         return False
 
 def getBigFilesList():
-    sql = "select bigfileid, original_filename , original_filesize, original_filemtime,  remote_folder, remote_uploaded from CloudFiles order by bigfileid"
+    sql = "select bigfileid, original_filename , original_filesize, original_filemtime,  remote_folder, remote_uploaded from CloudFiles order by remote_folder, original_filename"
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor() 
@@ -351,6 +351,7 @@ def addIMAPConfig(server, port, sslport,username, password, disklimit, vendor):
         print e
         return False
 
+
 def deleteBigFileById(bigfileid):
     sql1 = 'delete from CloudSplitedFiles where bigfileid = %d' % bigfileid
     sql2 = 'delete from CloudFiles where bigfileid = %d' % bigfileid
@@ -375,23 +376,24 @@ def getRARPathFromDB():
         cur = conn.cursor()
         ex = cur.execute(sql)
         rs = cur.fetchone()
-        rarpath = rs[0]
+        if len(rs[0]) > 0:
+            rarpath = rs[0]
         conn.close()
         return rarpath
     except Exception, e:
-        print e
         return rarpath
         
 def addRARPathToDB(rarpath):
-    sql = "insert into RARConfig set rarpath='%s'"   % rarpath
+    sql = "update RARConfig set rarpath='%s'"   % rarpath
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor()
         ex = cur.execute(sql)
-        cur.commit()
+        conn.commit()
         conn.close()
         return True
     except Exception, e:
+        print sql
         print e
         return False
         

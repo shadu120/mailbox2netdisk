@@ -335,18 +335,19 @@ class M2D:
         if not self._imapReady:
             return
         splitedfileslist = dba.getSplitedFilesListByBigFileId(bigfileid)
-        if not len(splitedfileslist) > 0:
-            return False
-        print 'Deleting Big file: %s' % splitedfileslist[0][1]
-        if self._deleteSplitedFiles(splitedfileslist):
-            print 'File has been deleted ...'
+        if len(splitedfileslist) > 0:
+            print 'Deleting Big file: %s' % splitedfileslist[0][1]
+            self._deleteSplitedFiles(splitedfileslist)
+        if dba.deleteBigFileById(bigfileid):
+            print 'File has been deleted!'
             return True
-        return False
+        else:
+            print 'Failed to delete file for some reason...'
+            return False
     
     def _deleteSplitedFiles(self, splitedfileslist):
         print '%d emails on server to delete' % len(splitedfileslist)
         imapdisk       = imapDisk.imapDisk()
-        #currentIMAPId  = splitedfileslist[0][16]
         currentIMAPId  = 0
         spfIDs_deleted = []
         while(len(spfIDs_deleted) < len(splitedfileslist)):
@@ -362,8 +363,7 @@ class M2D:
                     print 'IMAP UID deleted : %d (%d/%d)' % (imapuid, len(spfIDs_deleted) + 1, len(splitedfileslist))
                 spfIDs_deleted.append(imapuid)
         imapdisk.close()
-        imapdisk = None           
-        return dba.deleteBigFileById(splitedfileslist[0][0])
+        imapdisk = None
 
 
 if __name__ == '__main__':
