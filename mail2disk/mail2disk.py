@@ -326,8 +326,8 @@ class M2D:
                 status = 'Y'
             #filename = 'AAAAAAAAAAAAAAAAAAABBBBBBVVVVVKK'
             if len(filename) > 30:
-                filename = '%s...%s' % (filename[:21],filename[-6:-1])
-            print ' |%8d|%s|%12.3f|%-20s |%-30s' % (bigfileid, status, float(filesize)/1024/1024, foldername, filename )
+                filename = '%s...%s' % (filename[:26],filename[-3:])
+            print ' |%8d|%s|%12.3f|%-20s |%-29s' % (bigfileid, status, float(filesize)/1024/1024, foldername, filename)
         print ' +--------+-+------------+---------------------+------------------------------+'
 
     '''delete file in net disk by id'''

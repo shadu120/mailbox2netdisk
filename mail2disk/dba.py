@@ -101,7 +101,6 @@ def getIMAPNetdiskName(imapid):
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor()
-        conn.text_factory=str
         sql = "select netdiskname from IMAPConfig where id = %d" % imapid
         ex = cur.execute(sql)
         rs = cur.fetchone()
@@ -115,7 +114,6 @@ def updateIMAPNetdiskName(imapid, netdiskname):
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor()
-        conn.text_factory=str
         sql = "update IMAPConfig set netdiskname = '%s' where id = %d" % (netdiskname, imapid)
         ex = cur.execute(sql)
         conn.commit()
@@ -130,7 +128,6 @@ def allocateIMAPServer(splitedfileid):
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor()
-        conn.text_factory=str
         sql = "select IMAPConfig.id from IMAPConfig, CloudSplitedFiles  where CloudSplitedFiles.fileid = %d and (IMAPConfig.disklimit * 1024 * 1024 * 1024 - IMAPConfig.diskused)  > CloudSplitedFiles.filesize order by IMAPConfig.id asc" % splitedfileid
         ex = cur.execute(sql)
         rs = cur.fetchone()
@@ -144,7 +141,6 @@ def getIMAPConfig(imapid):
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor()
-        conn.text_factory=str
         sql = "select server, port, sslport , username, password, vendor from IMAPConfig where id = %d" % imapid
         ex = cur.execute(sql)
         rs = cur.fetchone()
@@ -191,7 +187,6 @@ def getBigFileIdByFilePwd(pwd):
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor()
-        conn.text_factory=str
         sql = "select fileid from CloudFiles where filepwd = '%s'" % pwd
         ex = cur.execute(sql)
         rs = cur.fetchone()
@@ -208,7 +203,6 @@ def getSplitedFilesIdToUpload(bigfileid):
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor()
-        conn.text_factory=str
         sql = "select fileid from CloudSplitedFiles where bigfileid = %d and imapid = 0" % bigfileid
         ex = cur.execute(sql)
         rs = cur.fetchall()
@@ -260,7 +254,6 @@ def checkFileIsInDBByHash(filehash):
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor() 
-        conn.text_factory=str
         ex = cur.execute(sql)
         rs = cur.fetchone()
         count = rs[0]
@@ -276,7 +269,6 @@ def checkFileUploadedById(bigfileid):
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor() 
-        conn.text_factory=str
         ex = cur.execute(sql)
         rs = cur.fetchone()
         count = rs[0]
@@ -292,7 +284,6 @@ def updateIMAPServerInfo(imap_id, mailsize):
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor()
-        conn.text_factory=str
         ex = cur.execute(sql)
         conn.commit()
         conn.close()
@@ -321,7 +312,6 @@ def getBigFilesList():
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor() 
-        conn.text_factory=str
         ex = cur.execute(sql)
         rs = cur.fetchall()
         conn.close()
@@ -339,7 +329,6 @@ def checkIMAPConfig():
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor() 
-        conn.text_factory=str
         ex = cur.execute(sql)
         rs = cur.fetchone()
         count = rs[0]
@@ -354,7 +343,6 @@ def addIMAPConfig(server, port, sslport,username, password, disklimit, vendor):
     try:
         conn = sqlite3.connect(DATABASE)
         cur = conn.cursor()
-        conn.text_factory=str
         ex = cur.execute(sql)
         conn.commit()
         conn.close()
