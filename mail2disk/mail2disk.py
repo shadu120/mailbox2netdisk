@@ -330,8 +330,8 @@ class M2D:
             else:
                 status = 'Y'
             #filename = 'AAAAAAAAAAAAAAAAAAABBBBBBVVVVVKK'
-            if len(filename) > 30:
-                filename = '%s...%s' % (filename[:26],filename[-3:])
+            if len(filename) > 29:
+                filename = '%s...%s' % (filename[:25],filename[-3:])
             print ' |%8d|%s|%12.3f|%-20s |%-29s' % (bigfileid, status, float(filesize)/1024/1024, foldername, filename)
         print ' +--------+-+------------+---------------------+------------------------------+'
 
